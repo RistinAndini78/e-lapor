@@ -13,6 +13,9 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        // Ubah email jadi huruf kecil semua
+        $request->merge(['email' => strtolower($request->email)]);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -39,6 +42,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Ubah email jadi huruf kecil semua saat login
+        $request->merge(['email' => strtolower($request->email)]);
+        
         $credentials = $request->only('email', 'password');
 
         /** @var \Tymon\JWTAuth\JWTGuard $guard */
